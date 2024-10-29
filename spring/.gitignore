@@ -1,0 +1,94 @@
+# Maven and Gradle directories
+target/
+build/
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# IntelliJ IDEA files
+.idea/
+*.iml
+*.iws
+out/
+
+# Eclipse and STS files
+.classpath
+.project
+.settings/
+
+# VS Code files
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Spring Boot specific files
+.env
+*.jar
+*.war
+
+# Database and cache files
+*.h2.db
+*.mv.db
+*.pgdata
+
+# Generated files
+*.bak
+*.orig
+
+# Local environment files
+*.env
+.env.*
+.envrc
+*.jenv
+
+# Logs and runtime generated files
+logs/
+*.log
+
+# Exclude test coverage results
+*.exec
+coverage/
+jacoco.exec
+
+# Ignore dependency directories
+node_modules/
+bower_components/
+
+# Ignore Yarn lockfile and package-lock.json
+yarn.lock
+package-lock.json
+
+# Ignore classpath file
+.classpath
+
+# Ignore IDE settings
+.idea/
+*.iml
+.project
+.settings/
+
+# Exclude specific Spring Boot directories and files
+spring-boot-devtools.jar
+
+# Ignore cloud deployment files
+.aws-sam/
+.s3-backup/
+
+# Specific OS files
+.DS_Store
+Thumbs.db
+
+# Exclude custom logs or backups
+logs/
+backup/
+tmp/

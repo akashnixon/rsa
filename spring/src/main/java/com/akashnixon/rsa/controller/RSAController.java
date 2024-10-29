@@ -1,8 +1,12 @@
 package com.akashnixon.rsa.controller;
 
+import com.akashnixon.rsa.model.EncryptionRequest;
 import com.akashnixon.rsa.service.RSAService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigInteger;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/rsa")
@@ -12,45 +16,29 @@ public class RSAController {
     @Autowired
     private RSAService rsaService;
 
-    // Endpoint to encrypt a message
     @PostMapping("/encrypt")
-    public String encrypt(@RequestBody MessageRequest request) {
-        return rsaService.encrypt(request.getMessage());
+    public List<BigInteger> encrypt(@RequestBody EncryptionRequest request) {
+        // Use N and e from the request to encrypt the message
+        return rsaService.encrypt(request.getMessage(), request.getN(), request.getE());
     }
 
-    // Endpoint to decrypt a ciphertext
     @PostMapping("/decrypt")
-    public String decrypt(@RequestBody MessageRequest request) {
+    public String decrypt(@RequestBody EncryptionRequest request) {
         return rsaService.decrypt(request.getMessage());
     }
 
-    // Endpoint to retrieve public key
     @GetMapping("/public-key")
     public String getPublicKey() {
         return rsaService.getPublicKey();
     }
 
-    // Endpoint to retrieve private key
     @GetMapping("/private-key")
     public String getPrivateKey() {
         return rsaService.getPrivateKey();
     }
 
-    // Endpoint to retrieve additional details (p, q, phi)
     @GetMapping("/details")
     public String getDetails() {
         return rsaService.getDetails();
-    }
-}
-
-class MessageRequest {
-    private String message;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 }
