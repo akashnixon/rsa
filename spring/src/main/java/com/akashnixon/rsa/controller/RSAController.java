@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/rsa")
@@ -17,9 +18,11 @@ public class RSAController {
     private RSAService rsaService;
 
     @PostMapping("/encrypt")
-    public List<BigInteger> encrypt(@RequestBody EncryptionRequest request) {
-        // Use N and e from the request to encrypt the message
-        return rsaService.encrypt(request.getMessage(), request.getN(), request.getE());
+    public List<BigInteger> encrypt(@RequestBody Map<String, Object> request) {
+        String message = request.get("message").toString();
+        String N = request.get("N") != null ? request.get("N").toString() : null;
+        String e = request.get("e").toString();
+        return rsaService.encrypt(message, new BigInteger(N), new BigInteger(e));
     }
 
     @PostMapping("/decrypt")

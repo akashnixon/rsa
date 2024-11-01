@@ -32,7 +32,7 @@ const EncryptDecryptForm = ({ setMessageOutput }) => {
           placeholder="Enter your message here"
           className="message-input"
         />
-        {false && (
+        {isEncrypt && (
           <div className="input-container">
             <input
               type="text"

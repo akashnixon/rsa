@@ -155,7 +155,7 @@ public class RSAService {
 
             BigInteger chunkInt = new BigInteger(hex, 16);
 
-            BigInteger encryptedChunk = modPow(chunkInt, e, N);
+            BigInteger encryptedChunk = modPow(chunkInt, partnerE, partnerN);
             encryptedChunks.add(encryptedChunk);
         }
 
