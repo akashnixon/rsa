@@ -44,4 +44,19 @@ public class RSAController {
     public String getDetails() {
         return rsaService.getDetails();
     }
+
+    @PostMapping("/sign")
+    public BigInteger signMessage(@RequestBody Map<String, String> request) {
+        String message = request.get("message");
+        return rsaService.sign(message, rsaService.getN(), rsaService.getD());
+    }
+
+    @PostMapping("/verify")
+    public boolean verifySignature(@RequestBody Map<String, Object> request) {
+        String message = request.get("message").toString();
+        BigInteger signature = new BigInteger(request.get("signature").toString());
+        BigInteger N = new BigInteger(request.get("N").toString());
+        BigInteger e = new BigInteger(request.get("e").toString());
+        return rsaService.verify(message, signature, N, e);
+    }
 }

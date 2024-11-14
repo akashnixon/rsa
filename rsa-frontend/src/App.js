@@ -1,23 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import EncryptDecryptForm from './components/EncryptDecryptForm';
-import KeyDetails from './components/KeyDetails';
-import MessageDisplay from './components/MessageDisplay';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import EncryptDecryptPage from './pages/EncryptDecryptPage';
+import SignVerifyPage from './pages/SignVerifyPage';
 import './App.css';
 
 const App = () => {
-  const [messageOutput, setMessageOutput] = useState('');
-
-  useEffect(() => {
-    document.title = 'RSA App';
-  }, []);
-
   return (
-    <div className="App">
-      <h1>RSA Encryption App</h1>
-      <EncryptDecryptForm setMessageOutput={setMessageOutput} />
-      <MessageDisplay messageOutput={messageOutput} />
-      <KeyDetails />
-    </div>
+    <Router>
+      <div className="App">
+        <nav>
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/encrypt-decrypt">Encrypt/Decrypt</Link></li>
+            <li><Link to="/sign-verify">Sign/Verify</Link></li>
+          </ul>
+        </nav>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/encrypt-decrypt" element={<EncryptDecryptPage />} />
+          <Route path="/sign-verify" element={<SignVerifyPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

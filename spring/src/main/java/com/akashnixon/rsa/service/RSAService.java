@@ -10,7 +10,28 @@ import java.util.List;
 @Service
 public class RSAService {
 
-    private BigInteger p, q, N, phi, e, d;
+    private BigInteger p;
+    private BigInteger q;
+
+
+    public BigInteger getN() {
+        return N;
+    }
+
+
+    private BigInteger N;
+    private BigInteger phi;
+    private BigInteger e;
+
+    public BigInteger getD() {
+        return d;
+    }
+
+    public void setD(BigInteger d) {
+        this.d = d;
+    }
+
+    private BigInteger d;
     final private int bitLength = 16;
     private SecureRandom random;
 
@@ -19,20 +40,19 @@ public class RSAService {
         generateKeys();
     }
 
-    // Generate RSA keys
     private void generateKeys() {
-        p = generatePrime();
-        q = generatePrime();
+        //p = generatePrime();
+        p = BigInteger.valueOf(26177); //already generated
+        //q = generatePrime();
+        q = BigInteger.valueOf(59113); //already generated
         N = p.multiply(q);
         phi = (p.subtract(BigInteger.ONE)).multiply(q.subtract(BigInteger.ONE));
 
-        // Select public key 'e'
-        e = generateE(phi);
-        // Compute private key 'd'
+        //e = generateE(phi);
+        e = BigInteger.valueOf(483287645); //already generated
         d = modInverse(e, phi);
     }
 
-    // Generate a prime number of specified bit length
     private BigInteger generatePrime() {
         BigInteger prime;
         do {
@@ -41,13 +61,11 @@ public class RSAService {
         return prime;
     }
 
-    // Check if a number is a probable prime (Miller-Rabin primality test)
     private boolean isProbablePrime(BigInteger n) {
         if (n.compareTo(BigInteger.TWO) < 0) return false;
         if (n.equals(BigInteger.TWO)) return true;
         if (mod(n,BigInteger.TWO).equals(BigInteger.ZERO)) return false;
 
-        // Write n-1 as d * 2^r
         BigInteger d = n.subtract(BigInteger.ONE);
         int r = 0;
         while (mod(d,BigInteger.TWO).equals(BigInteger.ZERO)) {
@@ -55,8 +73,7 @@ public class RSAService {
             r++;
         }
 
-        // Perform k trials
-        for (int i = 0; i < 5; i++) { // 5 iterations for good probability
+        for (int i = 0; i < 5; i++) {
             BigInteger a = BigInteger.TWO.add(mod(new BigInteger(bitLength, random),n.subtract(BigInteger.TWO)));
             BigInteger x = modPow(a, d, n);
             if (x.equals(BigInteger.ONE) || x.equals(n.subtract(BigInteger.ONE))) continue;
@@ -91,7 +108,6 @@ public class RSAService {
         return a;
     }
 
-    // Compute modular inverse using Extended Euclidean Algorithm
     private BigInteger modInverse(BigInteger a, BigInteger m) {
         BigInteger m0 = m, t, q;
         BigInteger x0 = BigInteger.ZERO, x1 = BigInteger.ONE;
@@ -115,7 +131,6 @@ public class RSAService {
         return x1;
     }
 
-    // Modular exponentiation
     private BigInteger modPow(BigInteger base, BigInteger exponent, BigInteger modulus) {
         BigInteger result = BigInteger.ONE;
         base = mod(base,modulus);
@@ -163,7 +178,6 @@ public class RSAService {
     }
 
 
-    // Decrypt a message
     public String decrypt(String ciphertext) {
         ciphertext = ciphertext.replace("[", "").replace("]", "");
         String[] chunks = ciphertext.split(",");
@@ -196,5 +210,16 @@ public class RSAService {
 
     public String getDetails() {
         return "p: " + p + ", q: " + q + ", phi: " + phi;
+    }
+
+    public BigInteger sign(String message, BigInteger N, BigInteger d) {
+        BigInteger messageInt = new BigInteger(message.getBytes());
+        return modPow(messageInt, d, N);
+    }
+
+    public boolean verify(String message, BigInteger signature, BigInteger N, BigInteger e) {
+        BigInteger messageInt = new BigInteger(message.getBytes());
+        BigInteger decryptedSignature = modPow(signature, e, N);
+        return messageInt.equals(decryptedSignature);
     }
 }

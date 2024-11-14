@@ -42,3 +42,22 @@ h2 {
 .key-input {
   margin-bottom: 5px; /* Add space between inputs */
 }
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+nav li {
+  display: inline;
+}
+
+nav a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}

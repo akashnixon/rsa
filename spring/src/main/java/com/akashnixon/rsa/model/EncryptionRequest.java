@@ -4,8 +4,8 @@ import java.math.BigInteger;
 
 public class EncryptionRequest {
     private String message;
-    private BigInteger N; // Field for N
-    private BigInteger e; // Field for e
+    private BigInteger N;
+    private BigInteger e;
 
     public String getMessage() {
         return message;

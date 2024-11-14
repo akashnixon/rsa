@@ -13,16 +13,26 @@ export const decryptMessage = async (message) => {
 };
 
 export const getPublicKey = async () => {
-    const response = await axios.get(`${API_BASE_URL}/public-key`);
-    return response.data;
+  const response = await axios.get(`${API_BASE_URL}/public-key`);
+  return response.data;
 };
-  
+
 export const getPrivateKey = async () => {
-    const response = await axios.get(`${API_BASE_URL}/private-key`);
-    return response.data;
+  const response = await axios.get(`${API_BASE_URL}/private-key`);
+  return response.data;
 };
-  
+
 export const getDetails = async () => {
   const response = await axios.get(`${API_BASE_URL}/details`);
+  return response.data;
+};
+
+export const signMessage = async (message) => {
+  const response = await axios.post(`${API_BASE_URL}/sign`, { message });
+  return response.data;
+};
+
+export const verifySignature = async (message, signature, N, e) => {
+  const response = await axios.post(`${API_BASE_URL}/verify`, { message, signature, N, e });
   return response.data;
 };
