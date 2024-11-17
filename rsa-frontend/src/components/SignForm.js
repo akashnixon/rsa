@@ -6,8 +6,9 @@ const SignForm = ({ setSignature }) => {
 
   const handleSign = async () => {
     try {
-      const signature = await signMessage('Your message to sign');
+      const signature = await signMessage(message);
       console.log('Generated Signature:', signature);
+      setSignature(signature);
     } catch (error) {
       console.error('Error signing the message:', error);
     }

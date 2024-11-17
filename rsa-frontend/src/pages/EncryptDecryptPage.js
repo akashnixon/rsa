@@ -8,7 +8,6 @@ const EncryptDecryptPage = () => {
 
   return (
     <div>
-      <h2>Encrypt/Decrypt</h2>
       <EncryptDecryptForm setMessageOutput={setMessageOutput} />
       <MessageDisplay messageOutput={messageOutput} />
       <KeyDetails />

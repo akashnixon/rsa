@@ -11,6 +11,7 @@ const VerifyForm = ({ setVerificationResult }) => {
     try {
       const isValid = await verifySignature(message, signature, partnerN, partnerE);
       console.log('Verification Result:', isValid ? 'Valid' : 'Invalid');
+      setVerificationResult(isValid ? 'Valid' : 'Invalid');
     } catch (error) {
       console.error('Error verifying the signature:', error);
     }

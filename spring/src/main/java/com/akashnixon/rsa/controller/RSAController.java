@@ -2,16 +2,16 @@ package com.akashnixon.rsa.controller;
 
 import com.akashnixon.rsa.model.EncryptionRequest;
 import com.akashnixon.rsa.service.RSAService;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
-import java.util.List;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/rsa")
-@CrossOrigin(origins = "http://localhost:3000") // Enable CORS for the frontend
+@CrossOrigin(origins = "http://localhost:3000")
 public class RSAController {
 
     @Autowired
@@ -46,7 +46,9 @@ public class RSAController {
     }
 
     @PostMapping("/sign")
-    public BigInteger signMessage(@RequestBody Map<String, String> request) {
+    public List<BigInteger> signMessage(
+            @RequestBody Map<String, String> request
+    ) {
         String message = request.get("message");
         return rsaService.sign(message, rsaService.getN(), rsaService.getD());
     }
@@ -54,9 +56,25 @@ public class RSAController {
     @PostMapping("/verify")
     public boolean verifySignature(@RequestBody Map<String, Object> request) {
         String message = request.get("message").toString();
-        BigInteger signature = new BigInteger(request.get("signature").toString());
+        String signatureStrings = request.get("signature").toString();
+        String cleanedInput = signatureStrings
+                .replace("[", "")
+                .replace("]", "")
+                .trim();
+        String[] signatureArray = cleanedInput.split(",");
+
+        List<String> signatureList = new ArrayList<>();
+        for (String chunk : signatureArray) {
+            signatureList.add(chunk.trim());
+        }
         BigInteger N = new BigInteger(request.get("N").toString());
         BigInteger e = new BigInteger(request.get("e").toString());
-        return rsaService.verify(message, signature, N, e);
+
+        List<BigInteger> signatureChunks = signatureList
+                .stream()
+                .map(sig -> new BigInteger(sig.trim()))
+                .toList();
+
+        return rsaService.verify(message, signatureChunks, N, e);
     }
 }

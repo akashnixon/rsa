@@ -1,23 +1,21 @@
 package com.akashnixon.rsa.service;
 
-import org.springframework.stereotype.Service;
-
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class RSAService {
 
     private BigInteger p;
     private BigInteger q;
-
+    int chunkSize = 3;
 
     public BigInteger getN() {
         return N;
     }
-
 
     private BigInteger N;
     private BigInteger phi;
@@ -32,7 +30,7 @@ public class RSAService {
     }
 
     private BigInteger d;
-    final private int bitLength = 16;
+    private final int bitLength = 16;
     private SecureRandom random;
 
     public RSAService() {
@@ -64,19 +62,23 @@ public class RSAService {
     private boolean isProbablePrime(BigInteger n) {
         if (n.compareTo(BigInteger.TWO) < 0) return false;
         if (n.equals(BigInteger.TWO)) return true;
-        if (mod(n,BigInteger.TWO).equals(BigInteger.ZERO)) return false;
+        if (mod(n, BigInteger.TWO).equals(BigInteger.ZERO)) return false;
 
         BigInteger d = n.subtract(BigInteger.ONE);
         int r = 0;
-        while (mod(d,BigInteger.TWO).equals(BigInteger.ZERO)) {
+        while (mod(d, BigInteger.TWO).equals(BigInteger.ZERO)) {
             d = d.shiftRight(1);
             r++;
         }
 
         for (int i = 0; i < 5; i++) {
-            BigInteger a = BigInteger.TWO.add(mod(new BigInteger(bitLength, random),n.subtract(BigInteger.TWO)));
+            BigInteger a = BigInteger.TWO.add(
+                    mod(new BigInteger(bitLength, random), n.subtract(BigInteger.TWO))
+            );
             BigInteger x = modPow(a, d, n);
-            if (x.equals(BigInteger.ONE) || x.equals(n.subtract(BigInteger.ONE))) continue;
+            if (
+                    x.equals(BigInteger.ONE) || x.equals(n.subtract(BigInteger.ONE))
+            ) continue;
 
             boolean found = false;
             for (int j = 0; j < r - 1; j++) {
@@ -95,14 +97,18 @@ public class RSAService {
         BigInteger e;
         do {
             e = new BigInteger(N.bitLength(), random);
-        } while (e.compareTo(BigInteger.ONE) <= 0 || e.compareTo(phi) >= 0 || gcd(e, phi).compareTo(BigInteger.ONE) != 0);
+        } while (
+                e.compareTo(BigInteger.ONE) <= 0 ||
+                        e.compareTo(phi) >= 0 ||
+                        gcd(e, phi).compareTo(BigInteger.ONE) != 0
+        );
         return e;
     }
 
     private BigInteger gcd(BigInteger a, BigInteger b) {
         while (!b.equals(BigInteger.ZERO)) {
             BigInteger temp = b;
-            b = mod(a,b);
+            b = mod(a, b);
             a = temp;
         }
         return a;
@@ -118,7 +124,7 @@ public class RSAService {
             q = a.divide(m);
             t = m;
 
-            m = mod(a,m);
+            m = mod(a, m);
             a = t;
             t = x0;
 
@@ -131,15 +137,19 @@ public class RSAService {
         return x1;
     }
 
-    private BigInteger modPow(BigInteger base, BigInteger exponent, BigInteger modulus) {
+    private BigInteger modPow(
+            BigInteger base,
+            BigInteger exponent,
+            BigInteger modulus
+    ) {
         BigInteger result = BigInteger.ONE;
-        base = mod(base,modulus);
+        base = mod(base, modulus);
         while (exponent.compareTo(BigInteger.ZERO) > 0) {
-            if (mod(exponent,BigInteger.TWO).equals(BigInteger.ONE)) {
-                result = mod((result.multiply(base)),modulus);
+            if (mod(exponent, BigInteger.TWO).equals(BigInteger.ONE)) {
+                result = mod((result.multiply(base)), modulus);
             }
             exponent = exponent.shiftRight(1);
-            base = mod((base.multiply(base)),modulus);
+            base = mod((base.multiply(base)), modulus);
         }
         return result;
     }
@@ -158,13 +168,18 @@ public class RSAService {
         return result;
     }
 
-
-    public List<BigInteger> encrypt(String message, BigInteger partnerN, BigInteger partnerE) {
+    public List<BigInteger> encrypt(
+            String message,
+            BigInteger partnerN,
+            BigInteger partnerE
+    ) {
         List<BigInteger> encryptedChunks = new ArrayList<>();
-        int chunkSize = 3;
 
         for (int i = 0; i < message.length(); i += chunkSize) {
-            String chunk = message.substring(i, Math.min(i + chunkSize, message.length()));
+            String chunk = message.substring(
+                    i,
+                    Math.min(i + chunkSize, message.length())
+            );
 
             String hex = new BigInteger(1, chunk.getBytes()).toString(16);
 
@@ -176,7 +191,6 @@ public class RSAService {
 
         return encryptedChunks;
     }
-
 
     public String decrypt(String ciphertext) {
         ciphertext = ciphertext.replace("[", "").replace("]", "");
@@ -199,7 +213,6 @@ public class RSAService {
         return decryptedMessage.toString();
     }
 
-
     public String getPublicKey() {
         return "Public Key (N, e): " + N + ", " + e;
     }
@@ -212,14 +225,51 @@ public class RSAService {
         return "p: " + p + ", q: " + q + ", phi: " + phi;
     }
 
-    public BigInteger sign(String message, BigInteger N, BigInteger d) {
-        BigInteger messageInt = new BigInteger(message.getBytes());
-        return modPow(messageInt, d, N);
+    public List<BigInteger> sign(String message, BigInteger N, BigInteger d) {
+        List<BigInteger> signedChunks = new ArrayList<>();
+
+        for (int i = 0; i < message.length(); i += chunkSize) {
+            String chunk = message.substring(
+                    i,
+                    Math.min(i + chunkSize, message.length())
+            );
+
+            String hex = new BigInteger(1, chunk.getBytes()).toString(16);
+            BigInteger chunkInt = new BigInteger(hex, 16);
+
+            BigInteger signedChunk = modPow(chunkInt, d, N);
+            signedChunks.add(signedChunk);
+        }
+
+        return signedChunks;
     }
 
-    public boolean verify(String message, BigInteger signature, BigInteger N, BigInteger e) {
-        BigInteger messageInt = new BigInteger(message.getBytes());
-        BigInteger decryptedSignature = modPow(signature, e, N);
-        return messageInt.equals(decryptedSignature);
+    public boolean verify(
+            String message,
+            List<BigInteger> signatureChunks,
+            BigInteger N,
+            BigInteger e
+    ) {
+        List<BigInteger> messageChunks = new ArrayList<>();
+
+        for (int i = 0; i < message.length(); i += chunkSize) {
+            String chunk = message.substring(
+                    i,
+                    Math.min(i + chunkSize, message.length())
+            );
+
+            String hex = new BigInteger(1, chunk.getBytes()).toString(16);
+            BigInteger chunkInt = new BigInteger(hex, 16);
+            messageChunks.add(chunkInt);
+        }
+
+        for (int i = 0; i < signatureChunks.size(); i++) {
+            BigInteger decryptedChunk = modPow(signatureChunks.get(i), e, N);
+            if (!decryptedChunk.equals(messageChunks.get(i))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

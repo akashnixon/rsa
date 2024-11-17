@@ -4,23 +4,25 @@ import VerifyForm from '../components/VerifyForm';
 import KeyDetails from '../components/KeyDetails';
 
 const SignVerifyPage = () => {
-  const [signature, setSignature] = useState('');
+  const [signature, setSignature] = useState([]);
   const [verificationResult, setVerificationResult] = useState('');
 
   useEffect(() => {
-    if (signature) {
+    if (signature.length > 0) {
       console.log('Signature updated:', signature);
     }
-  }, [signature]);
+    if (verificationResult) {
+      console.log('Verification Result:', verificationResult);
+    }
+  }, [signature, verificationResult]);
 
   return (
     <div>
-      <h2>Sign/Verify</h2>
       <SignForm setSignature={setSignature} />
-      {signature && (
+      {signature.length > 0 && (
         <div className="signature-output">
           <h3>Generated Signature</h3>
-          <pre>{signature}</pre>
+          <pre>{`[${signature.join(', ')}]`}</pre>
         </div>
       )}
       <VerifyForm setVerificationResult={setVerificationResult} />
@@ -30,7 +32,7 @@ const SignVerifyPage = () => {
           <p>{verificationResult}</p>
         </div>
       )}
-    <KeyDetails />
+      <KeyDetails />
     </div>
   );
 };
