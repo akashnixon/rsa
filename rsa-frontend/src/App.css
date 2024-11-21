@@ -51,13 +51,20 @@ nav ul {
 
 nav li {
   display: inline;
+  background-color: black;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 nav a {
   text-decoration: none;
-  color: #007bff;
+  color: white;
 }
 
 nav a:hover {
   text-decoration: underline;
+}
+
+nav {
+  text-align: right;
 }

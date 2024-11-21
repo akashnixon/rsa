@@ -9,7 +9,7 @@ const App = () => {
   return (
     <Router>
       <div className="App">
-        <nav>
+        <nav className='nav'>
           <ul>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/encrypt-decrypt">Encrypt/Decrypt</Link></li>
