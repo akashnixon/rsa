@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SignForm from '../components/SignForm';
 import VerifyForm from '../components/VerifyForm';
-import KeyDetails from '../components/KeyDetails';
 
 const SignVerifyPage = () => {
   const [signature, setSignature] = useState([]);
@@ -32,7 +31,6 @@ const SignVerifyPage = () => {
           <p>{verificationResult}</p>
         </div>
       )}
-      <KeyDetails />
     </div>
   );
 };

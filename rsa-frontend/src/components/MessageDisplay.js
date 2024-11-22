@@ -1,11 +1,13 @@
-import React from 'react';
+import React from "react";
 
 const MessageDisplay = ({ messageOutput }) => (
   <div>
-    <h2>Output</h2>
-    <p>
-      {Array.isArray(messageOutput) ? `[${messageOutput.join(", ")}]` : messageOutput}
-    </p>
+    <div className='m-4 font-bold text-lg'>Output</div>
+    <div className='m-4'>
+      {Array.isArray(messageOutput)
+        ? `[${messageOutput.join(", ")}]`
+        : messageOutput}
+    </div>
   </div>
 );
 
