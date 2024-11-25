@@ -25,15 +25,15 @@ const KeyDetails = () => {
   return (
     <div className="w-full my-4">
       <div className="flex flex-col space-y-4">
-        <div className="flex flex-row items-center">
+        <div className="flex flex-col items-center">
           <div className="text-2xl font-bold w-1/3">Public Key</div>
           <div className="p-1 bg-gray-100 rounded-md w-2/3">{publicKey}</div>
         </div>
-        <div className="flex flex-row items-center">
+        <div className="flex flex-col items-center">
           <div className="text-2xl font-bold w-1/3">Private Key</div>
           <div className="p-1 bg-gray-100 rounded-md w-2/3">{privateKey}</div>
         </div>
-        <div className="flex flex-row items-center">
+        <div className="flex flex-col items-center">
           <div className="text-2xl font-bold w-1/3">Key Details</div>
           <div className="p-1 bg-gray-100 rounded-md w-2/3">{details}</div>
         </div>
