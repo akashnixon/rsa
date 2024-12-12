@@ -4,8 +4,9 @@
 - Java 17 or higher
 - Node.js (version 14+)
 - npm
+all can be directly installed from brew or other services.
 
-## Backend Setup (Spring Boot)
+## Backend Setup (Spring Boot/Java)
 
 ### Running the Application
 1. Navigate to the backend deployment directory:
@@ -18,7 +19,7 @@
    java -jar rsa-0.0.1-SNAPSHOT.jar
    ```
 
-## Frontend Setup (React/npm)
+## Frontend Setup (ReactJS)
 
 ### Deployment Location
 Place the frontend project in a separate directory:
