@@ -53,5 +53,8 @@ Place the frontend project in a separate directory:
 - Ensure no port conflicts
 
 ## Logging
-- Backend logs will be in the console or configured log file
+- Backend logs will be in the console
 - Frontend logs visible in the terminal running `npm start`
+
+## Contact
+- Contact me via E-Mail if you have any issues running: nixonakash01@gmail.com
