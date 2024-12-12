@@ -1,10 +1,9 @@
 # Project Setup Guide
 
-## Prerequisites
+## Prerequisites (all can be directly installed from brew or other services)
 - Java 17 or higher
 - Node.js (version 14+)
 - npm
-all can be directly installed from brew or other services.
 
 ## Backend Setup (Spring Boot/Java)
 
