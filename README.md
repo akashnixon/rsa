@@ -29,7 +29,7 @@ Place the frontend project in a separate directory:
 ### Installation and Running
 1. Navigate to the frontend project directory:
    ```bash
-   /rsa/rsa-frontend/
+   cd /rsa/rsa-frontend/
    ```
 
 2. Install dependencies:
