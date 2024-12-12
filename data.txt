@@ -1,0 +1,43 @@
+# IDs
+MY_ID = 40303475
+PARTNER_ID = 40300588
+
+# my data
+p = 26177
+q = 59113
+N = 1547401001
+phi_N = 1547315712
+e = 483287645
+d = 1493642741
+
+# my partner data
+PARTNER_N = 3046577551
+PARTNER_e = 129982721
+
+# encryption
+MY_MESSAGE = "Zombies eat brains. You are safe."
+MY_MESSAGE_chunks = ["Zom", "bie", "s e", "at ", "bra", "ins", ". Y", "ou ", "are", " sa", "fe."]
+MY_CIPHERTEXT = [284316874, 2617863406, 1775303262, 2736268619, 2865771423, 787636498, 1059474172, 812302979, 1377710066, 44634421, 2917091285]
+
+# decryption
+PARTNER_CIPHERTEXT = [535244233, 1191964667, 1543913446, 1315820076, 1030077819, 1049543556, 248035673, 1187109232, 299353493, 325128427, 1230578945, 212288517, 394639034, 370851347, 474103255, 835703482]
+PARTNER_MESSAGE_chunks_AFTER_DECRYPT = ["I'l", "l r", "un ", "it ", "aga", "in,", " ma", "ybe", " it", " wi", "ll ", "wor", "k t", "his", " ti", "me"]
+PARTNER_MESSAGE_AFTER_DECRYPT = "I'll run it again, maybe it will work this time"
+
+
+# sign
+MY_MESSAGE_TO_BE_SIGNED = "Akash Nixon"
+MY_MESSAGE_TO_BE_SIGNED_chunks = ["Aka", "sh ", "Nix", "on"]
+MY_SIGNATURE = [391211210, 967975345, 29295655, 1221231049]
+
+# verfiy the signature
+PARTNER_SIGNED_MESSAGE = "Kaushikan Murali"
+PARTNER_SIGNATURE = [2443585319, 1285026218, 381513465, 2405525336, 1153319164, 1937779529]
+#IS_VALID_SIGNATURE should be True or False
+IS_VALID_SIGNATURE = True
+
+
+
+COMMENTS = '''
+# If you have a short comment, write it here
+'''
